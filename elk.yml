@@ -1,0 +1,4 @@
+- name: ELK Config Setup
+  host: all
+  roles:
+    - elk
