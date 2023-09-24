@@ -8,6 +8,11 @@
     src: record.yml
     dest: /opt/prometheus/record.yml
 
+- name: Copy Prometheus Configuration - Alert file
+  ansible.builtin.template:
+    src: alert.yml
+    dest: /opt/prometheus/alert.yml
+
 - name: Restart Prometheus
   ansible.builtin.systemd:
     name: prometheus
