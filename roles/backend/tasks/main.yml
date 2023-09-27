@@ -6,7 +6,7 @@
   register: npm
   ignore_errors: yes
 
-- name: Install NodeJS Repos
+- name: Install NodeJS
   ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
   when: npm.rc != 0
 
@@ -20,16 +20,16 @@
     src: backend.service
     dest: /etc/systemd/system/backend.service
 
-- name: Add Application User
+- name: Add application user
   ansible.builtin.user:
     name: expense
 
-- name: Include App Pre-requisite
+- name: Include App Pre-requisites
   ansible.builtin.import_role:
     name: common
     tasks_from: app_prereq
 
-- name: Install NodeJS Depndencies
+- name: Install NodeJS dependencies
   ansible.builtin.shell: npm install
   args:
     chdir: /app
@@ -39,9 +39,9 @@
     name: mysql
 
 - name: Load Schema
-  ansible.builtin.shell: mysql -h {{ lookup( 'aws_ssm', 'expense.backend.DB_HOST', region='us-east-1' ) }} -uroot -p{{ lookup( 'aws_ssm', 'expense.backend.DB_PASS', region='us-east-1' ) }} < /app/schema/backend.sql
+  ansible.builtin.shell: mysql -h {{ lookup('aws_ssm', 'expense.backend.DB_HOST', region='us-east-1' ) }} -uroot -p{{ lookup('aws_ssm', 'expense.backend.DB_PASS', region='us-east-1' ) }} < /app/schema/backend.sql
 
-- name: Start Backend Service
+- name: Start backend Service
   ansible.builtin.systemd:
     name: backend
     state: restarted
