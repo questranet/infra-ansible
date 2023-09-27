@@ -1,2 +1,2 @@
-app_loc: /user/share/ngnix/html
+app_loc: /usr/share/ngnix/html
 component: frontend
