@@ -12,22 +12,24 @@ pipeline {
     string(name: 'VERSION', defaultValue: '', description: 'Version to Deploy')
   }
 
-  stages{
+  stages {
 
-    stage ('Update Parameter Store'){
+    stage ('Update Parameter Store') {
 
-      steps{
+      steps {
         sh 'aws ssm put-parameter --name "${ENV}.${APP_NAME}.app_version" --type "String" --value "${VERSION}" --overwrite'
       }
     }
 
-    stage ('Deployment'){
+    stage ('Deployment') {
       sh '''
         aws ec2 describe-instances --filters "Name=tag:Name,Values=${ENV}-${APP_NAME}" --query "Reservations[*].Instances[*].PrivateIpAddress" --output text  >hosts
         ansible-playbook -i hosts main.yml -e role_name=${APP_NAME} -e env=${VERSION}
       '''
-      }
+
     }
 
   }
+
+
 }
