@@ -25,6 +25,17 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
+#    static_configs:
+#      - targets: [ "localhost:9090" ]
+#
+#      - job_name: "expense"
+#
+#        # metrics_path defaults to '/metrics'
+#        # scheme defaults to 'http'.
+#
+#    static_configs:
+#      - targets: [ "172.31.40.90:9100", "172.31.39.125:9100", "172.31.33.226:9100" ]
+
     static_configs:
       - targets: ["localhost:9090"]
 
